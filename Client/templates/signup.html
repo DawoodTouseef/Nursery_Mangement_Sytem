@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Users Sign Up{% endblock %}
+{% block body %}
+<form method="POST">
+  <h3 align="center">users-Sign Up</h3>
+  <div class="form-group">
+    <label for="email">Email Address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="email"
+      name="email"
+      placeholder="Enter email"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password1">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password1"
+      name="password1"
+      placeholder="Enter password"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password2">Password (Confirm)</label>
+    <input
+      type="password"
+      class="form-control"
+      id="password2"
+      name="password2"
+      placeholder="Confirm password"
+    />
+  </div>
+  <a href="/user_login">Already Have a Account?</a><p></p>
+  <a href="{{ common_url }}/admin_login">Are you a Merchant?</a><br>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}

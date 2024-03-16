@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}{% endblock %}</title>
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='bs/css/flatly.min.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
+        <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+    </head>
+    <body>
+        {% if admin %}
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('index') }}">Plants Library</a><p></p>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="{{ url_for('admin') }}"><i class="glyphicon glyphicon-dashboard"></i> Admin Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('add') }}"><i class="glyphicon glyphicon-plus-sign"></i> Add Product</a>
+                        </li>
+                        {% if admin_log.is_authenticated %}
+                        <li>
+                            <a href="/admin_logout"><i class="glyphicon glyphicon-chevron-left"></i> Logout</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div>
+        </nav>
+        {% else %}
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url_for('index') }}" >Plants Library</a>
+                    </div>
+
+                <div class="navbar-header">
+                    <!-- Form for the search bar -->
+                    <form action="{{ url_for('search') }}" method="GET">
+
+                            <!-- Input field for entering the search query -->
+                            <input type="text" name="query" placeholder="Search for Plants Library..." style="
+                            display:center;
+                            width: 90%;
+                            margin-top:1.5%;
+                            margin-bottom:0.5%;
+                            height: 60%;
+                            border: 1px solid #ccc;
+                            border: 1px solid black;" >
+                            <!-- Submit button to initiate the search -->
+                            <button type="submit" style="width: 14%;height: 35%;background-color:yellow;"><i class="glyphicon glyphicon-search"></i></button>
+
+                    </form>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active">
+                            <a href="{{ url_for('cart') }}">
+                                <i class="glyphicon glyphicon-shopping-cart"></i> Cart
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        {% if user.is_authenticated %}
+                        <li>
+                            <a href="/user_logout"><i class="glyphicon glyphicon-chevron-left"></i> Logout</a>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="/user_login">Login<i class="glyphicon glyphicon-chevron-right"></i></a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+
+
+            </div>
+        </nav>
+        {% endif %}
+
+        <div class="container" id="page">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      {% if category == 'error' %}
+        <div class="alert alert-danger" role="alert" style="background-color: #d4edda; color: #155724; border-color: #c3e6cb;">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% else %}
+        <div class="alert alert-success alter-dismissable fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+        {% block body %}{% endblock %}
+
+            <footer>
+                <div class="row pad">
+                    <div class="col-lg-12 text-center">
+                        Copyright &copy; 2024 <strong>Plants Library</strong>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <!-- jQuery -->
+        <script src="{{ url_for('static', filename='bs/js/jquery.min.js') }}"></script>
+        <!-- Bootstrap JavaScript -->
+        <script src="{{ url_for('static', filename='bs/js/bootstrap.min.js') }}"></script>
+
+    </body>
+</html>
