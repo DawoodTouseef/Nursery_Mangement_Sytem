@@ -15,17 +15,21 @@ Nursery management system is a software where a person can buy their necessary p
 9. **Order Management:** Administrators can track orders, manage fulfillment, and generate invoices.
 10. **Feedback and Reviews:** Leave feedback and reviews for purchased products to build trust.
 
-## Installation
-1. Clone the repository:
+## Installation 
+1. Install Xampp for your Operating System
+   ```
+   https://www.apachefriends.org/download.html
+   ```
+2. Clone the repository:
     ```bash
     git clone https://github.com/DawoodTouseef/Nursery-Management-System.git
     ```
-2. Install dependencies:
+3. Install dependencies:
     ```bash
     cd Nursery-Management-System
     pip install -r requirements.txt
     ```
-3. Configure the database settings in `config.py`.
+
 4. Run the Admin application:
     ```bash
     cd Admin
