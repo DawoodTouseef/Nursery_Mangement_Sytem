@@ -8,7 +8,7 @@ from flask_mysqldb import MySQL
 import MySQLdb.cursors
 from wtforms.validators import DataRequired
 import socket
-
+import os
 
 def get_ip_address():
     try:
@@ -31,7 +31,7 @@ app=Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'mysecret'
 #Path where the image is stored
-app.config['UPLOAD_FOLDER'] = '/media/lenovo/Windows 10/Nursery-Management-System/Client/Product'
+app.config['UPLOAD_FOLDER'] = os.path.join(f"{os.getcwd()}".replace("Admin","Client"),'Product')
 app.config['MYSQL_HOST'] = 'localhost'  # XAMPP MySQL server host
 app.config['MYSQL_USER'] = 'root'       # XAMPP MySQL username
 app.config['MYSQL_PASSWORD'] = ''       # XAMPP MySQL password

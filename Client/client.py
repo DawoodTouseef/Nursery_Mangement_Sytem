@@ -35,7 +35,7 @@ def get_ip_address():
 app=Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'mysecret'
-app.config['UPLOAD_FOLDER'] = '/media/lenovo/Windows 10/Nursery-Management-System/Client/Product'
+app.config['UPLOAD_FOLDER'] = os.path.join(os.getcwd(),'Product')
 app.config['MYSQL_HOST'] = 'localhost'  # XAMPP MySQL server host
 app.config['MYSQL_USER'] = 'root'       # XAMPP MySQL username
 app.config['MYSQL_PASSWORD'] = ''       # XAMPP MySQL password
@@ -51,7 +51,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 mysql = MySQL()
 mysql.init_app(app)
-filename="/media/lenovo/Windows 10/DBMS/Nursery_Mangement_Sytem/schema.sql"
 
 class AddToCart(FlaskForm):
     quantity = IntegerField('Quantity')
