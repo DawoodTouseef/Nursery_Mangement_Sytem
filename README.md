@@ -37,7 +37,7 @@ Nursery management system is a software where a person can buy their necessary p
     ```bash
     python admin.py
     ```
-5. Access the application in your web browser at [http://localhost:2003].
+5. Access the application in your web browser at [http://localhost:2003] or [http://your_ip_address:2003].
 6. Run the Client application:
     ```bash
     cd Client
@@ -45,7 +45,7 @@ Nursery management system is a software where a person can buy their necessary p
     ```bash
     python client.py
     ```
-7. Access the application in your web browser at [http://localhost:2802].
+7. Access the application in your web browser at [http://localhost:2802] or [http://your_ip_address:2003].
 ## Usage
 - **Admin Dashboard:** Access the admin dashboard to manage inventory, view sales reports, and manage customers.
 - **Employee Interface:** Employees can use the system to perform tasks assigned by the admin, such as updating inventory or assisting customers.
