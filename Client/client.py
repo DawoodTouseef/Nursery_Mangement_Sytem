@@ -168,7 +168,7 @@ def order(order_id):
 
     for order_dict, user_list in zip(orders, user):
         order_info = {}
-        for key in ['order_id', 'status', 'reference','payment_type']:
+        for key in ['order_id', 'status', 'reference','payment_type','order_date','delivery_date']:
             order_info[key] = order_dict[key]
 
         for key in ['first_name', 'last_name','user_address','user_contact','user_email','city','user_email','city','country','state']:
@@ -182,6 +182,25 @@ def order(order_id):
     products=[dict(row) for row in db.fetchall()]
     return render_template('view-order.html',product=products, order=orders_info[0], admin=False,user=current_user,order_total=order_totals,quantity_total=quantity_total,home=current_user.user_id)
 
+@app.route('/delete_order/<order_id>')
+def delete_order(order_id):
+    db=get_db()
+    db.execute('SELECT product_id,quantity FROM Order_Item WHERE order_id = %s;',(order_id,))
+    products=[dict(row) for row in db.fetchall()]
+    for product in products:
+        db.execute('UPDATE Product SET stock_available = stock_available+%s WHERE p_id = %s;',(product['quantity'],product['product_id'],))
+    db.execute("DELETE FROM  Orders WHERE order_id= %s;",
+               (order_id,))
+    mysql.connection.commit()
+    return redirect(url_for('admin'))
+
+@app.route('/orders/<s_id>',methods=['GET','POST'])
+def orders(s_id):
+    db=get_db()
+    db.execute("SELECT * FROM Orders o JOIN Product p WHERE user_id = %s ;",
+               (s_id,))
+    orders = [dict(row) for row in db.fetchall()]
+    return render_template('orders.html',user=current_user,orders=orders)
 
 @app.route('/quick-add/<id>')
 def quick_add(id):

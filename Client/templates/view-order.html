@@ -82,7 +82,7 @@
 					<p><i class="glyphicon glyphicon-th"></i> State: <strong>{{ order['state'] }}</strong></p>
 					<p><i class="glyphicon glyphicon-flag"></i> Country: <strong>{{ order['country'] }}</strong></p>
 					<hr />
-					{% if order['delivery_date'] %}
+					{% if order['delivery_date'] is not none %}
 					<p>
 						<i class="glyphicon glyphicon-gift"></i>
 						Delivery: <strong>{{ order['delivery_date'] }}</strong>
@@ -90,7 +90,7 @@
 					{% else  %}
 					<p>
 						<i class="glyphicon glyphicon-gift"></i>
-						Delivery: <strong>Next Day Delivery</strong>
+						Delivery: <strong style="color: red">Yet to be released !!!</strong>
 					</p>
 					{% endif %}
 					<hr />

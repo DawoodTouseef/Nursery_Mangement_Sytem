@@ -36,7 +36,7 @@
                             <a href="{{ url_for('add') }}"><i class="glyphicon glyphicon-plus-sign"></i> Add Product</a>
                         </li>
                         <li>
-                            <a href="{{ url_for('orders',s_id=current_user.s_id) }}"><i class="glyphicon glyphicon-plus-sign"></i> Orders</a>
+                            <a href="{{ url_for('orders',s_id=current_user.s_id) }}"><i class="glyphicon glyphicon-list"></i> Orders</a>
                         </li>
                         {% if admin_log.is_authenticated %}
                         <li>

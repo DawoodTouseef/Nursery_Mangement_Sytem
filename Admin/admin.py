@@ -139,6 +139,8 @@ def orders(s_id):
     db.execute("SELECT * FROM Orders o JOIN Product p WHERE p.supplier_id = %s ;",
                (s_id,))
     orders = [dict(row) for row in db.fetchall()]
+    for i,order in enumerate(orders):
+        order.update({'index':i})
     return render_template('orders.html',user=current_user,orders=orders)
 # Define route for admin
 @app.route('/admin/<index>')
@@ -160,8 +162,8 @@ def admin(index):
         user_email=db.fetchall()
         user.append(user_email[0]['user_email'])
     order_information = []
-    for order in orders:
-        order_information.append({**order, 'user_email':user[orders.index(order)]})
+    for i,order in enumerate(orders,len(orders)):
+        order_information.append({**order,"index":i, 'user_email':user[orders.index(order)]})
     return render_template('index.html', admin=True, products=products, products_in_stock=len(products_in_stock), orders=order_information,admin_log=current_user,home=url_for('admin',index=index))
 
 

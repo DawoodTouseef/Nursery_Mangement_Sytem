@@ -61,7 +61,6 @@
                 <div class="navbar-header">
                     <!-- Form for the search bar -->
                     <form action="{{ url_for('search') }}" method="GET">
-
                             <!-- Input field for entering the search query -->
                             <input type="text" name="query" placeholder="Search for Plants Library..." style="
                             display:center;
@@ -80,14 +79,15 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="{{ url_for('orders',s_id=current_user.user_id) }}"><i class="glyphicon glyphicon-list"></i> Orders</a>
+                        </li>
                         <li class="active">
                             <a href="{{ url_for('cart') }}">
                                 <i class="glyphicon glyphicon-shopping-cart"></i> Cart
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav navbar-nav">
-                        {% if user.is_authenticated %}
+                         {% if user.is_authenticated %}
                         <li>
                             <a href="/user_logout"><i class="glyphicon glyphicon-chevron-left"></i> Logout</a>
                         </li>
