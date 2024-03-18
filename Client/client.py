@@ -339,7 +339,7 @@ def checkout():
 
         session['cart'] = []
         session.modified = True
-        flash('Ordered  successfully! reference: '+reference, category='success')
+        flash('Ordered  successfully! reference: '+reference, category='error')
         return redirect(url_for('order', order_id=order_id['LAST_INSERT_ID()']))
 
     return render_template('checkout.html', user=current_user, form=form, grand_total=grand_total,
@@ -361,7 +361,7 @@ def user_login():
         db.execute("SELECT  * FROM Users WHERE user_email = %s", (email,))
         user = db.fetchall()
         if user and check_password_hash(user[0]['password_hash'], password):
-            flash('Logged in successfully!', category='success')
+            flash('Logged in successfully!', category='error')
             login_user(User(user[0]['user_id'], user[0]['user_email']), remember=True)
             return redirect(url_for('index'))
         else:
