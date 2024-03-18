@@ -20,32 +20,34 @@ Nursery management system is a software where a person can buy their necessary p
    ```
    https://www.apachefriends.org/download.html
    ```
-2. Clone the repository:
+2. After Installation Run the MySQL ,Apache in Xampp then create Database called plants.
+3. After Creating the database go to " Privileges" the go to localhost then set No Password 
+4. Clone the repository:
     ```bash
     git clone https://github.com/DawoodTouseef/Nursery-Management-System.git
     ```
-3. Install dependencies:
+5. Install dependencies:
     ```bash
     cd Nursery-Management-System
     pip install -r requirements.txt
     ```
 
-4. Run the Admin application:
+5. Run the Admin application:
     ```bash
     cd Admin
     ```
     ```bash
     python admin.py
     ```
-5. Access the application in your web browser at [http://localhost:2003] or [http://your_ip_address:2003].
-6. Run the Client application:
+6. Access the application in your web browser at [http://localhost:2003] or [http://your_ip_address:2003].
+7. Run the Client application:
     ```bash
     cd Client
     ```
     ```bash
     python client.py
     ```
-7. Access the application in your web browser at [http://localhost:2802] or [http://your_ip_address:2003].
+8. Access the application in your web browser at [http://localhost:2802] or [http://your_ip_address:2003].
 ## Usage
 - **Admin Dashboard:** Access the admin dashboard to manage inventory, view sales reports, and manage customers.
 - **Employee Interface:** Employees can use the system to perform tasks assigned by the admin, such as updating inventory or assisting customers.
