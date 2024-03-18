@@ -1,3 +1,5 @@
+import sys
+
 from werkzeug.security import  generate_password_hash,check_password_hash
 from flask_socketio import SocketIO
 from flask import *
@@ -70,7 +72,11 @@ class Checkout(FlaskForm):
                                         ('COD', 'Cash on Delivery')])
 
 def get_db():
-    db = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    try:
+        db = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    except Exception as e:
+        print(f"Error: {e}")
+        sys.exit(0)
     return db
 
 # Initialize the database
@@ -139,6 +145,42 @@ def product(id):
 
     return render_template('view-product.html', product=product[0],form=form,supplier=Supplier[0],user=current_user)
 
+@app.route('/order/<order_id>')
+@login_required
+def order(order_id):
+    db=get_db()
+    query=f"SELECT * FROM Orders WHERE order_id = {order_id};"
+    db.execute(query)
+    orders=[dict(row) for row in db.fetchall()]
+    order_totals = []
+    for order in orders:
+        db.execute(
+            "SELECT SUM(oi.quantity * p.price) AS order_total FROM Order_Item oi JOIN Product p ON oi.product_id = p.p_id WHERE oi.order_id = %s;",
+            (order['order_id'],))
+        order_total = [dict(row) for row in db.fetchall()]
+        order_totals.append(order_total)
+    order_totals=order_totals[0][0]['order_total']
+    user = []
+    for order in orders:
+        db.execute('SELECT o.first_name, o.last_name,o.user_address,o.user_contact,user_email,o.state,o.city,o.country FROM Orders o ,Users  u WHERE o.user_id=%s AND u.user_id = o.user_id', (order['user_id'],))
+        user.append([dict(row) for row in db.fetchall()])
+    orders_info = []
+
+    for order_dict, user_list in zip(orders, user):
+        order_info = {}
+        for key in ['order_id', 'status', 'reference','payment_type']:
+            order_info[key] = order_dict[key]
+
+        for key in ['first_name', 'last_name','user_address','user_contact','user_email','city','user_email','city','country','state']:
+            order_info[key] = user_list[0][key]
+        orders_info.append(order_info)
+        # Fetch total quantity of items in the order
+        db.execute("SELECT SUM(oi.quantity) FROM Order_Item oi WHERE oi.order_id = %s;", (order_id,))
+        quantity_totals = db.fetchone()
+        quantity_total =float( quantity_totals['SUM(oi.quantity)'] if quantity_totals['SUM(oi.quantity)'] is not None else 0)
+    db.execute('SELECT p.p_id,p.p_name,p.price,oi.quantity,p.price FROM Product as p,Order_Item as oi WHERE p.p_id=oi.product_id AND oi.order_id=%s ;',(order_id,))
+    products=[dict(row) for row in db.fetchall()]
+    return render_template('view-order.html',product=products, order=orders_info[0], admin=False,user=current_user,order_total=order_totals,quantity_total=quantity_total,home=current_user.user_id)
 
 
 @app.route('/quick-add/<id>')
@@ -278,7 +320,7 @@ def checkout():
         session['cart'] = []
         session.modified = True
         flash('Ordered  successfully! reference: '+reference, category='success')
-        return redirect(url_for('index'))
+        return redirect(url_for('order', order_id=order_id['LAST_INSERT_ID()']))
 
     return render_template('checkout.html', user=current_user, form=form, grand_total=grand_total,
                            grand_total_plus_shipping=grand_total_plus_shipping, quantity_total=quantity_total)
