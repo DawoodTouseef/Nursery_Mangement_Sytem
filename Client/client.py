@@ -195,6 +195,7 @@ def delete_order(order_id):
     return redirect(url_for('admin'))
 
 @app.route('/orders/<s_id>',methods=['GET','POST'])
+@login_required
 def orders(s_id):
     db=get_db()
     db.execute("SELECT * FROM Orders o JOIN Product p WHERE user_id = %s ;",
@@ -370,6 +371,11 @@ def user_login():
     return render_template('login.html',user=current_user,common_url=common_url)
 
 @app.errorhandler(401)
+def unauthorized(error):
+    flash('Please login first.', category='error')
+    return redirect(url_for('index'))
+
+@app.errorhandler(404)
 def unauthorized(error):
     flash('Please login first.', category='error')
     return redirect(url_for('index'))

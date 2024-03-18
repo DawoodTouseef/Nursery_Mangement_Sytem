@@ -134,6 +134,7 @@ def edit_order(order_id):
 
 
 @app.route('/orders/<s_id>',methods=['GET','POST'])
+@login_required
 def orders(s_id):
     db=get_db()
     db.execute("SELECT * FROM Orders o JOIN Product p WHERE p.supplier_id = %s ;",
