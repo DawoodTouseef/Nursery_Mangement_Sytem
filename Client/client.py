@@ -65,10 +65,10 @@ class Checkout(FlaskForm):
     email = StringField('Email')
     address = StringField('Address')
     city = StringField('City')
-    state = SelectField('State', choices=[('CA', 'California'), ('WA', 'Washington'), ('NV', 'Nevada')])
-    country = SelectField('Country', choices=[('US', 'United States'), ('UK', 'United Kingdom'), ('FRA', 'France')])
+    state = SelectField('State', choices=[('KA', 'Karnataka'), ('KL', 'Kerala'), ('TN', 'Tamil Nadu')])
+    country = SelectField('Country', choices=[('', 'Select Country'), ('IN', 'India')])
     payment_type = SelectField('Payment Type',
-                               choices=[('CK', 'Check'), ('WT', 'Wire Transfer'), ('UPI', 'Online Payment'),
+                               choices=[('CK', 'Check'),  ('UPI', 'Online Payment'),
                                         ('COD', 'Cash on Delivery')])
 
 def get_db():
@@ -183,6 +183,7 @@ def order(order_id):
     return render_template('view-order.html',product=products, order=orders_info[0], admin=False,user=current_user,order_total=order_totals,quantity_total=quantity_total,home=current_user.user_id)
 
 @app.route('/delete_order/<order_id>')
+@login_required
 def delete_order(order_id):
     db=get_db()
     db.execute('SELECT product_id,quantity FROM Order_Item WHERE order_id = %s;',(order_id,))
@@ -391,7 +392,6 @@ def users_signup():
         email_exits =  db.fetchall()
         if email_exits:
             flash('Email already exists.', category='error')
-            print("Email already exists.")
         elif len(email) < 4:
             flash('Email must be greater than 3 characters.', category='error')
         elif password1 != password2:

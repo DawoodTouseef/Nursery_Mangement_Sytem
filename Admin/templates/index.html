@@ -50,6 +50,7 @@
                     </thead>
                     <tbody>
                         {% for order in orders %}
+                        {% if order['status'] == 'Pending' %}
                         <tr>
                             <td>{{ order['index'] }}</td>
                             <td><a href="{{ url_for('order', order_id=order['order_id']) }}">{{ order['reference'] }}</a></td>
@@ -73,6 +74,7 @@
 						        </p>
                             </td>
                         </tr>
+                        {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>
